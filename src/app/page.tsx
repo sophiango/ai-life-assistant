@@ -1,8 +1,15 @@
 'use client';
 
 import {useState} from 'react';
-import { Box, Input, Button, VStack, Text, Container } from '@chakra-ui/react';
+import {
+  Box,
+  Input,
+  Button,
+  VStack,
+  Heading,
+} from '@chakra-ui/react';
 import axios from 'axios';
+import ChatBubble from '@/components/ChatBubble';
 
 interface Message {
     role: string,
@@ -11,32 +18,40 @@ interface Message {
 
 export default function Home() {
     const [input, setInput] = useState('');
-    const [message, setMessage] = useState<Message>({role: '', text: ''});
+    const [message, setMessage] = useState<Message[]>([]);
+    const [chatHistory, setChatHistory] = useState<Message[]>([
+        { role: "assistant", text: "Hello! How are you feeling today?" },
+    ]);
 
     const handleSend = async () => {
         if (!input.trim()) return;
-        setMessage({
-            role: 'user',
-            text: input
-        })
+        // setMessage({
+        //     role: 'user',
+        //     text: input
+        // })
         setInput(input)
 
         const res = await axios.post('/api/chat', { message: input })
-        setMessage({
-            role: 'assistant',
-            text: res.data.text
-        });
+        setChatHistory(res.data.memory)
+        // setMessage({
+        //     role: 'assistant',
+        //     text: res.data.text
+        // });
     }
 
     return (
-        <Container>
-            <VStack align="stretch" mt={8}>
-                <Box h="400px" overflowY="scroll" p={4} border="1px solid gray" borderRadius="md">
-                <Text>{message.text}</Text>
+        <Box p={6} minH="100vh">
+            <VStack spacing={4} align="stretch" maxW="xl" mx="auto">
+                <Heading size="lg">AI Life Assistant</Heading>
+                <p style={{ fontStyle: 'italic'}}>Powered by Gemini</p>
+                <Box h="400px" overflowY="scroll" p={4} border="1px solid gray" borderRadius="md" display={"flex"} flexDirection={"column"}>
+                    {
+                        chatHistory.map((message, i) => <ChatBubble key={i} role={message.role} text={message.text} />)
+                    }
                 </Box>
-                <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Say something..." />
+                <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder="How are you feeling today?" />
                 <Button onClick={handleSend} colorScheme="teal">Send</Button>
             </VStack>
-        </Container>
+        </Box>
     );
 }
