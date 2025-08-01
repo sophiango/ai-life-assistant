@@ -18,30 +18,21 @@ interface Message {
 
 export default function Home() {
     const [input, setInput] = useState('');
-    const [message, setMessage] = useState<Message[]>([]);
     const [chatHistory, setChatHistory] = useState<Message[]>([
         { role: "assistant", text: "Hello! How are you feeling today?" },
     ]);
 
     const handleSend = async () => {
         if (!input.trim()) return;
-        // setMessage({
-        //     role: 'user',
-        //     text: input
-        // })
         setInput(input)
 
         const res = await axios.post('/api/chat', { message: input })
         setChatHistory(res.data.memory)
-        // setMessage({
-        //     role: 'assistant',
-        //     text: res.data.text
-        // });
     }
 
     return (
         <Box p={6} minH="100vh">
-            <VStack spacing={4} align="stretch" maxW="xl" mx="auto">
+            <VStack align="stretch" maxW="xl" mx="auto">
                 <Heading size="lg">AI Life Assistant</Heading>
                 <p style={{ fontStyle: 'italic'}}>Powered by Gemini</p>
                 <Box h="400px" overflowY="scroll" p={4} border="1px solid gray" borderRadius="md" display={"flex"} flexDirection={"column"}>

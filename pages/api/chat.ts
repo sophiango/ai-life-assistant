@@ -14,7 +14,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         role: 'user',
         text: userMessage
     })
-    console.log("memory: ", conversationHistory)
     try {
         const response = await ai.models.generateContent({
         model: 'gemini-2.0-flash-001',
