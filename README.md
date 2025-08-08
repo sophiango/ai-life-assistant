@@ -1,6 +1,6 @@
 # 🧠 AI Life Assistant
 
-A full-stack AI-powered life assistant built with [Next.js](https://nextjs.org/) and [Chakra UI](https://chakra-ui.com/), integrating OpenAI's GPT model to help you brainstorm, organize thoughts, and answer daily questions — all from a beautiful, simple interface.
+A full-stack AI-powered life assistant built with [Next.js](https://nextjs.org/) and [Chakra UI](https://chakra-ui.com/), integrating Google's Gemini model to help you brainstorm, organize thoughts, and answer daily questions — all from a simple interface.
 
 ---
 
